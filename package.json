@@ -10,6 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "^8.2.5"
+    "cli-table3": "^0.6.3",
+    "inquirer": "^8.2.5",
+    "inquirer-table-prompt": "^0.2.1",
+    "mysql2": "^3.5.0"
   }
 }

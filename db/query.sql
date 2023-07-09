@@ -13,4 +13,11 @@
 --   LEFT JOIN employee managers
 --   ON employee.manager_id = managers.id;
 
-SELECT * FROM department
+SELECT
+role.id,
+role.title,
+role.salary,
+department.name AS department
+FROM role
+    JOIN department
+    ON department.id = role.department_id;

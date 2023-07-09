@@ -13,7 +13,7 @@ function showMainMenu() {
       message: "What would you like to do?",
       type: "list",
       name: "main",
-      choices: ["View all departments", "View all roles", "View all employees"],
+      choices: ["View all departments", "View all roles", "View all employees", 'Add a department', 'Add a role', 'Add an employee'],
     })
     .then((answer) => {
       if (answer.main === "View all employees") {
@@ -109,6 +109,72 @@ function showMainMenu() {
 
           showMainMenu();
         });
+      }
+      if (answer.main === 'Add a department') {
+        inquirer.prompt([
+            {
+                message: 'Enter a department name',
+                name: 'department_name',
+
+            }
+        ]).then(answer => {
+            const sql = `INSERT INTO department (name) VALUES (?)`
+            connection.query(sql, [answer.department_name], (err, data) => {
+                if (err) throw err;
+                console.log('Role added successfully');
+                showMainMenu()
+            })
+        })
+      }
+      if (answer.main === 'Add a role') {
+        inquirer.prompt([
+            {
+                message: 'Enter a role',
+                name: 'role_name',
+            },
+            {
+                message: 'Enter the salary',
+                name: 'salary',
+            },
+            {
+                message: 'Enter a Department ID',
+                name: 'department_id'
+            }
+        ]).then(answer => {
+            const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
+            connection.query(sql, [answer.role_name, answer.salary, answer.department_id], (err, data) => {
+                if (err) throw err;
+                console.log('Role added successfully');
+                showMainMenu()
+            })
+        })
+      }
+      if (answer.main === 'Add an employee') {
+        inquirer.prompt([
+            {
+                message: 'Enter first name',
+                name: 'first_name',
+            },
+            {
+                message: 'Enter the last name',
+                name: 'last_name',
+            },
+            {
+                message: 'Enter a Role ID',
+                name: 'role_id'
+            },
+            {
+                message: 'Enter a manager ID',
+                name: 'manager_id'
+            }
+        ]).then(answer => {
+            const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`
+            connection.query(sql, [answer.first_name, answer.last_name, answer.role_id, answer.manager_id], (err, data) => {
+                if (err) throw err;
+                console.log('Employee added successfully');
+                showMainMenu()
+            })
+        })
       }
     });
 }

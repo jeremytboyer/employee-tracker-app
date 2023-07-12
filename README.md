@@ -23,6 +23,8 @@ npm -i
 
 run node index.js and follow the prompts in the terminal.
 
+[Walkthrough Video](https://drive.google.com/file/d/1bMu_PFyJZjYgsTeOarMgYjP_BMPkdeW9/view)
+
 ## License
 
 This project is licensed under the MIT license.

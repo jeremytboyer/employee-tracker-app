@@ -13,7 +13,7 @@ function showMainMenu() {
       message: "What would you like to do?",
       type: "list",
       name: "main",
-      choices: ["View all departments", "View all roles", "View all employees", 'Add a department', 'Add a role', 'Add an employee'],
+      choices: ["View all departments", "View all roles", "View all employees", 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role'],
     })
     .then((answer) => {
       if (answer.main === "View all employees") {
@@ -67,7 +67,6 @@ function showMainMenu() {
       if (answer.main === "View all departments") {
         const sql = "SELECT * FROM department";
         connection.query(sql, (err, data) => {
-          console.log(data);
           const table = new Table({
             head: ["ID", "Department"],
             colWidths: [15, 15],
@@ -121,7 +120,7 @@ function showMainMenu() {
             const sql = `INSERT INTO department (name) VALUES (?)`
             connection.query(sql, [answer.department_name], (err, data) => {
                 if (err) throw err;
-                console.log('Role added successfully');
+                console.log('Department added successfully');
                 showMainMenu()
             })
         })
@@ -172,6 +171,29 @@ function showMainMenu() {
             connection.query(sql, [answer.first_name, answer.last_name, answer.role_id, answer.manager_id], (err, data) => {
                 if (err) throw err;
                 console.log('Employee added successfully');
+                showMainMenu()
+            })
+        })
+      }
+      if (answer.main === 'Update an employee role') {
+        inquirer.prompt([
+            {
+                message: 'Enter an employee ID to update',
+                name: 'employee_id',
+            },
+            {
+                message: 'Enter a new role ID',
+                name: 'role_id'
+            }
+        ]).then(answer => {
+            const sql = `
+                UPDATE employee
+                SET role_id = (?)
+                WHERE employee.id = (?)
+            `
+            connection.query(sql, [answer.role_id, answer.employee_id], (err, data) => {
+                if (err) throw err;
+                console.log('Employee updated successfully');
                 showMainMenu()
             })
         })
